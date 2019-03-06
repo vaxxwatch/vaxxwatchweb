@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --mode production --config config/webpack.config.js",
     "postbuild": "react-snap",
-    "lint": "eslint src --fix --max-warnings 0"
+    "lint": "eslint src --fix"
   },
   "husky": {
     "hooks": {
@@ -16,8 +16,8 @@
   "reactSnap": {
     "source": "public"
   },
-  "eslint": {
-    "configFile": "./config/.eslintrc.json"
+  "eslintConfig": {
+    "extends": "./config/.eslintrc.json"
   },
   "keywords": [],
   "author": "",
