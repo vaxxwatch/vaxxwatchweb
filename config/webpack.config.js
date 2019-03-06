@@ -13,9 +13,11 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin(),
-        new HtmlWebpackPlugin({ template: './src/index.html' }),
+        new HtmlWebpackPlugin({ 
+            template: './src/index.html' 
+        }),
         new CopyWebpackPlugin([
-            { from: './assets/favicon.ico' },
+            { from: './assets/favicon.ico' }
         ])
     ],
     resolve: {
