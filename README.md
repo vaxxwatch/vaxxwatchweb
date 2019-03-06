@@ -1,3 +1,3 @@
-# VAXXWATCHWEB
+# VAXXWATCH WEB
 
 Website for VaxxWatch
