@@ -13,7 +13,8 @@
     }
   },
   "reactSnap": {
-    "source": "public"
+    "source": "public",
+    "inlineCss": true
   },
   "eslintConfig": {
     "extends": "./config/.eslintrc.json"

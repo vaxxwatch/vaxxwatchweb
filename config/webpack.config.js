@@ -15,6 +15,15 @@ module.exports = {
     contentBase: path.resolve(__dirname, 'public'),
     port: 80,
   },
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    }
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+    modules: [path.resolve(__dirname, 'src'), 'node_modules']
+  },  
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
@@ -24,9 +33,6 @@ module.exports = {
       { from: './assets/favicon.ico' },
     ]),
   ],
-  resolve: {
-    extensions: ['.js', '.jsx'],
-  },
   module: {
     rules: [
       {
@@ -36,7 +42,11 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: [
-              '@babel/preset-env',
+              [
+                '@babel/preset-env', {
+                  modules: false
+                }
+              ],
               '@babel/react',
             ],
             plugins: ['@babel/plugin-proposal-class-properties'],
