@@ -1,8 +1,11 @@
-const rootElement = document.getElementById("root");
+import { hydrate, render } from 'react-dom';
 
-if (!rootElement.hasChildNodes()) {
-    const newElement = document.createElement('p')
-    newElement.innerHTML = 'This site is under construction...'
+import App from './app/app';
 
-    rootElement.appendChild(newElement)
+const rootElement = document.getElementById('root');
+
+if (rootElement.hasChildNodes()) {
+  hydrate(App(), rootElement);
+} else {
+  render(App(), rootElement);
 }

@@ -1,11 +1,26 @@
 {
-    "extends": "eslint:recommended",
+    "extends": [
+        "airbnb",
+        "eslint:recommended"
+    ],
     "parserOptions": {
-        "ecmaVersion": 9
+        "ecmaVersion": 9,
+        "ecmaFeatures": {
+            "jsx": true
+        }
     },
     "env": {
         "es6": true,
         "node": true,
         "browser": true
+    },
+    "parser": "babel-eslint",
+    "plugins": [
+        "babel"
+    ],
+    "rules": {
+        "linebreak-style": "off",
+        "babel/semi": 1,
+        "react/jsx-one-expression-per-line": "off"
     }
 }
