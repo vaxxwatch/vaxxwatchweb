@@ -38,7 +38,7 @@ class Map extends React.PureComponent {
       .map(MAP_ID, MAP_OPTIONS)
       .setView(STARTING_COORDINATES, ZOOM_LEVEL);
     
-    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', TILE_OPTIONS).addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', TILE_OPTIONS).addTo(map);
 
     this.startCoordinateTimer();
     this.setState(() => ({
