@@ -49,6 +49,7 @@
     "webpack-dev-server": "^3.2.1"
   },
   "dependencies": {
+    "@sentry/browser": "^4.6.4",
     "leaflet": "^1.4.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.4",
