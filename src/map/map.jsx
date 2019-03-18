@@ -71,13 +71,21 @@ class Map extends React.PureComponent {
     const {map} = this.state;
     const {data} = message;
 
-    if (data.length === 2) {
-      L.marker(...data).addTo(map);
+    let parsedData = data;
+
+    try {
+      parsedData = JSON.parse(parsedData);
+    } catch (error) {
+      // ignore 
+    }
+
+    if (parsedData.length === 2) {
+      L.marker(...parsedData).addTo(map);
       return;
     }
 
     this.setState(() => ({
-      socketMessage: data
+      socketMessage: parsedData
     }));
   };
 
