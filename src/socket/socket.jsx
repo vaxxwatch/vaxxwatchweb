@@ -1,6 +1,6 @@
 import React from 'react';
 
-const url = 'ws://localhost:5000/echo';
+const url = 'wss://vaxxwatch.herokuapp.com/echo';
 
 class Socket extends React.PureComponent {
   state = {

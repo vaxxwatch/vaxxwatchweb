@@ -1,6 +1,8 @@
 import React from 'react';
 import L from 'leaflet';
 
+import './map.less';
+
 const STARTING_COORDINATES = [38, -95];
 const ZOOM_LEVEL = 4;
 
@@ -23,8 +25,8 @@ const COORDINATE_TIMER_INTERVAL = 5000;
 const MAP_ID = 'map';
 
 const MAP_STYLE = {
-  height: '40vh',
-  width: '70vw',
+  height: '80vh',
+  width: '90vw',
   border: '1px solid lightgray'
 };
 
@@ -40,7 +42,11 @@ class Map extends React.PureComponent {
     
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', TILE_OPTIONS).addTo(map);
 
-    this.startCoordinateTimer();
+    map.on('click', function(event) {
+      L.marker([event.latlng.lat, event.latlng.lng]).addTo(map);
+    });
+
+    //this.startCoordinateTimer();
     this.setState(() => ({
       map
     }));
@@ -56,7 +62,7 @@ class Map extends React.PureComponent {
     const mapUpdateInterval = setInterval(() => {
       const {map} = this.state;
 
-      const newLonCoordinate = Math.random() * (49.3 - 25.3) + 25.3;
+      const newLonCoordinate = (Math.random() * (49.3 - 25.3) + 25.3);
       const newLatCoordinate = (Math.random() * (124.5 - 66.3) + 66.3) * -1;
 
       L.marker([newLonCoordinate, newLatCoordinate]).addTo(map);
