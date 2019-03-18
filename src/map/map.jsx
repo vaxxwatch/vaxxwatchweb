@@ -1,5 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import L from 'leaflet';
+
+import {SocketConnector} from '../socket/socket';
 
 import './map.less';
 
@@ -20,8 +23,6 @@ const TILE_OPTIONS = {
   subdomains: ['a', 'b', 'c'],
 };
 
-const COORDINATE_TIMER_INTERVAL = 5000;
-
 const MAP_ID = 'map';
 
 const MAP_STYLE = {
@@ -32,7 +33,7 @@ const MAP_STYLE = {
 
 class Map extends React.PureComponent {
   state = {
-    map: null
+    listenerId: 'map',
   };
 
   componentDidMount() {
@@ -42,42 +43,58 @@ class Map extends React.PureComponent {
     
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', TILE_OPTIONS).addTo(map);
 
-    map.on('click', function(event) {
-      L.marker([event.latlng.lat, event.latlng.lng]).addTo(map);
-    });
+    // map.on('click', function(event) {
+    //   L.marker([event.latlng.lat, event.latlng.lng]).addTo(map);
+    // });
 
-    //this.startCoordinateTimer();
+    this.setEventListener();
     this.setState(() => ({
       map
     }));
   }
 
   componentWillUnmount() {
-    const {mapUpdateInterval} = this.state;
+    const {socket} = this.props;
+    const {listenerId} = this.state;
 
-    clearInterval(mapUpdateInterval);
+    socket.removeEventListener(listenerId);
   }
 
-  startCoordinateTimer = () => {    
-    const mapUpdateInterval = setInterval(() => {
-      const {map} = this.state;
+  setEventListener = () => {
+    const {socket} = this.props;
+    const {listenerId} = this.state;
 
-      const newLonCoordinate = (Math.random() * (49.3 - 25.3) + 25.3);
-      const newLatCoordinate = (Math.random() * (124.5 - 66.3) + 66.3) * -1;
+    socket.addEventListener({callback: this.handleNewCoordinateMessage, id: listenerId});
+  };
 
-      L.marker([newLonCoordinate, newLatCoordinate]).addTo(map);
-    }, COORDINATE_TIMER_INTERVAL);
+  handleNewCoordinateMessage = (message) => {
+    const {map} = this.state;
+    const {data} = message;
+
+    if (data.length === 2) {
+      L.marker(...data).addTo(map);
+      return;
+    }
 
     this.setState(() => ({
-      mapUpdateInterval
+      socketMessage: data
     }));
   };
 
   render() {
+    const {socketMessage} = this.state;
+
     return (
-      <div id={MAP_ID} style={MAP_STYLE} />
+      <>
+        <div id={MAP_ID} style={MAP_STYLE} />
+        <p>{socketMessage}</p>
+      </>
     );
   }
 }
+
+Map.propTypes = {
+  socket: PropTypes.instanceOf(SocketConnector).isRequired
+};
 
 export default Map;

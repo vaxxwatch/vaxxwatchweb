@@ -2,6 +2,35 @@ import React from 'react';
 
 const url = 'wss://vaxxwatch.herokuapp.com/echo';
 
+export class SocketConnector {
+  socket = null;
+  listeners = {};
+
+  onMessage = (message) => {
+    Object.values(this.listeners).forEach((listener) => {
+      listener(message);
+    });
+  };
+
+  addEventListener = (listener) => {
+    if (Object.keys(this.listeners).length === 0) {
+      this.socket = new WebSocket(url);
+      this.socket.onmessage = this.onMessage;
+    }
+
+    this.listeners[listener.id] = listener.callback;
+  };
+
+  removeEventListener = (listener) => {
+    delete this.listeners[listener.id || listener];
+
+    if (Object.keys(this.listeners).length === 0) {
+      this.socket.close();
+      this.socket = null;
+    }
+  };
+}
+
 class Socket extends React.PureComponent {
   state = {
     socket: new WebSocket(url),
@@ -15,7 +44,7 @@ class Socket extends React.PureComponent {
 
   componentWillUnmount() {
     const { socket } = this.state;
-    socket.close(1000);
+    socket.close();
   }
 
   onMessage = (msg) => {

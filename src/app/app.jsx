@@ -1,12 +1,11 @@
 import React from 'react';
 
 import Map from '../map/map';
-import Socket from '../socket/socket';
+import {SocketConnector} from '../socket/socket';
 
 const App = () => (
   <div>
-    <Map />
-    <Socket />
+    <Map socket={new SocketConnector()} />
   </div>
 );
 
