@@ -80,7 +80,7 @@ class Map extends React.PureComponent {
     }
 
     if (parsedData.length === 2) {
-      L.marker(...parsedData).addTo(map);
+      L.marker(parsedData).addTo(map);
       return;
     }
 
