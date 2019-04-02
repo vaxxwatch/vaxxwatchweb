@@ -1,6 +1,6 @@
 import React from 'react';
 
-const url = 'wss://vaxxwatch.herokuapp.com/coordinate_socket';
+const url = 'wss://vaxx.herokuapp.com/coordinate_socket';
 
 export class SocketConnector {
   socket = null;
