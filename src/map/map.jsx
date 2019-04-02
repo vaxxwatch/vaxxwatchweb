@@ -67,17 +67,22 @@ class Map extends React.PureComponent {
     socket.addEventListener({callback: this.handleNewCoordinateMessage, id: listenerId});
   };
 
+  tryParseJson = (json) => {
+    try {
+      json = JSON.parse(json);
+    } catch (error) {
+      // ignore 
+    }
+
+    return json;
+  };
+
   handleNewCoordinateMessage = (message) => {
     const {map} = this.state;
     const {data} = message;
 
-    let parsedData = data;
-
-    try {
-      parsedData = JSON.parse(parsedData);
-    } catch (error) {
-      // ignore 
-    }
+    let parsedData = this.tryParseJson(data);
+    parsedData = this.tryParseJson(parsedData);
 
     if (parsedData.length === 2) {
       L.marker(parsedData).addTo(map);
