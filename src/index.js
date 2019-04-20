@@ -1,7 +1,6 @@
 import { hydrate, render } from 'react-dom';
 
 import setupSentry from './vendor/sentry';
-
 import App from './app/app';
 
 const rootElement = document.getElementById('root');

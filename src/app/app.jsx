@@ -5,7 +5,7 @@ import {SocketConnector} from '../socket/socket';
 
 const App = () => (
   <div>
-    <Map socket={new SocketConnector()} />
+    <Map socket={new SocketConnector()} strategy='heat' />
   </div>
 );
 

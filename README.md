@@ -10,5 +10,5 @@ Dependencies `[node, npm]`
 
 To run solution in dev mode, first clone solution then run the following commands.
 
-1. `npm i`
+1. `npm ci`
 2. `npm start`

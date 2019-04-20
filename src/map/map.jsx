@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
+import 'leaflet.heat';
 
 import {SocketConnector} from '../socket/socket';
-
 import './map.less';
 
 const STARTING_COORDINATES = [38, -95];
@@ -31,6 +31,10 @@ const MAP_STYLE = {
   border: '1px solid lightgray'
 };
 
+const HEAT_OPTIONS = {
+  radius: 10,
+};
+
 class Map extends React.PureComponent {
   state = {
     listenerId: 'map',
@@ -41,15 +45,14 @@ class Map extends React.PureComponent {
       .map(MAP_ID, MAP_OPTIONS)
       .setView(STARTING_COORDINATES, ZOOM_LEVEL);
     
+    const heat = L.heatLayer([], HEAT_OPTIONS).addTo(map);
+      
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', TILE_OPTIONS).addTo(map);
-
-    // map.on('click', function(event) {
-    //   L.marker([event.latlng.lat, event.latlng.lng]).addTo(map);
-    // });
 
     this.setEventListener();
     this.setState(() => ({
-      map
+      map,
+      heat
     }));
   }
 
@@ -78,20 +81,19 @@ class Map extends React.PureComponent {
   };
 
   handleNewCoordinateMessage = (message) => {
-    const {map} = this.state;
+    const {map, heat} = this.state;
     const {data} = message;
 
-    let parsedData = this.tryParseJson(data);
-    parsedData = this.tryParseJson(parsedData);
+    const parsedData = this.tryParseJson(data);
 
     if (parsedData.length === 2) {
-      L.marker(parsedData).addTo(map);
-      return;
+      //L.marker(parsedData).addTo(map);
+      heat.addLatLng(parsedData);
+    } else {
+      this.setState(() => ({
+        socketMessage: parsedData
+      }));
     }
-
-    this.setState(() => ({
-      socketMessage: parsedData
-    }));
   };
 
   render() {
