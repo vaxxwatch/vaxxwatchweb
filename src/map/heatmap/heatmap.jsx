@@ -1,16 +1,37 @@
 import L from 'leaflet';
 import 'leaflet.heat';
 
+import { getLatLngListInRange } from '../../helpers/latlng';
 import { tryParseJson } from '../../helpers/json';
 import Map from '../map';
+
+const COORDINATE_RANGE_METERS = 500000;
 
 const HEAT_OPTIONS = {
   radius: 10,
 };
 
+const layerIsGraphics = (layer) => layer && ((layer._bounds && !layer._center) || layer._point );
+
 class HeatMap extends Map {
   state = {
     listenerId: 'heatMap',
+  };
+
+  clearShapes = () => {
+    const {map} = this.state;
+
+    const layers = map._layers;
+
+    if (!layers) {
+      return;
+    }
+
+    const graphicLayers = Object.values(layers).filter(layerIsGraphics);
+
+    graphicLayers.forEach((layer) => {
+      map.removeLayer(layer);
+    });
   };
 
   handleMouseMove = (moveEvent) => {
@@ -21,14 +42,14 @@ class HeatMap extends Map {
       return;
     }
 
-    heat._latlngs.forEach((latlng, index) => {
-      const distanceInMeters = map.distance(latlng, mouseLatLng);
+    this.clearShapes();
 
-      const distanceInKilometers = distanceInMeters / 1000;
+    const distanceCalculator = (a, b) => map.distance(a, b);
+    const coordinatesInRange = getLatLngListInRange(mouseLatLng, heat._latlngs, distanceCalculator, COORDINATE_RANGE_METERS);
 
-      if (distanceInKilometers < 250) {
-        console.log(index, `${distanceInKilometers.toFixed(0)}km`);
-      }
+    coordinatesInRange.forEach((latLng) => {
+      L.circle(latLng, {radius: 55000, color: 'blue'}).addTo(map);
+      L.polyline([latLng, mouseLatLng], {color: 'red'}).addTo(map);
     });
   };
 

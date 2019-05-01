@@ -22,6 +22,7 @@
         "linebreak-style": "off",
         "babel/semi": 1,
         "react/jsx-one-expression-per-line": "off",
-        "indent": ["error", 2]
+        "indent": ["error", 2],
+        "import/prefer-default-export": "off"
     }
 }

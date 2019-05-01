@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import L from 'leaflet';
 import 'leaflet.heat';
 
+import config from '../../config/default';
 import SocketConnector from '../socket/socketconnector';
 import './map.less';
+
+const MOUSE_TIMEOUT = config.map.mouseMoveTimeout;
 
 const STARTING_COORDINATES = [38, -95];
 const ZOOM_LEVEL = 4;
@@ -53,7 +56,7 @@ class Map extends React.PureComponent {
   onMouseMove = (event) => {
     clearTimeout(this.mouseEventTimeout);
 
-    this.mouseEventTimeout = setTimeout(this.handleMouseMove.bind(null, { ...event }), 50);
+    this.mouseEventTimeout = setTimeout(this.handleMouseMove.bind(null, { ...event }), MOUSE_TIMEOUT);
   };
 
   handleMouseMove = (mouseEvent) => {
@@ -79,7 +82,7 @@ class Map extends React.PureComponent {
     const { listenerId } = this.state;
 
     return (
-      <div id={listenerId} style={MAP_STYLE} onMouseMove={this.onMouseMove} />
+      <div id={listenerId} style={MAP_STYLE} onClick={this.onMouseMove} />
     );
   }
 }
