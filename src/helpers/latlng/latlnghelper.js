@@ -3,11 +3,11 @@ export const getLatLngListInRange = (originLatLng, latLngList, distanceCalculato
     return [];
   }
 
-  return latLngList.reduce((latLngsInRange, latLng) => {
-    const distance = distanceCalculatorFunction(latLng, originLatLng);
+  const distanceFilter = (latLng) => distanceCalculatorFunction(latLng, originLatLng) < rangeInMeters;
 
-    return distance < rangeInMeters
-      ? [...latLngsInRange, latLng]
-      : latLngsInRange;
-  }, []);
+  return latLngList.filter(distanceFilter);
+};
+
+export const isValidLatLng = (latLng) => {
+  return latLng && latLng.length === 2 && !isNaN(latLng[0]) && !isNaN(latLng[1]);
 };

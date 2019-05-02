@@ -5,11 +5,14 @@
     "start": "parcel src/template/index.html -d public -p 80",
     "build": "parcel build src/template/index.html -d public",
     "postbuild": "react-snap",
-    "lint": "eslint src --fix"
+    "lint": "eslint src --fix",
+    "git-pre-commit": "npm run lint -- --fix",
+    "git-pre-push": "npm-run-all -p lint build"
   },
   "husky": {
     "hooks": {
-      "pre-push": "run-p lint build"
+      "pre-commit": "npm run git-pre-commit",
+      "pre-push": "npm run git-pre-push"
     }
   },
   "reactSnap": {

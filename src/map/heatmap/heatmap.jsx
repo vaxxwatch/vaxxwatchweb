@@ -1,7 +1,7 @@
 import L from 'leaflet';
 import 'leaflet.heat';
 
-import { getLatLngListInRange } from '../../helpers/latlng';
+import { getLatLngListInRange, isValidLatLng } from '../../helpers/latlng';
 import { tryParseJson } from '../../helpers/json';
 import Map from '../map';
 
@@ -38,18 +38,24 @@ class HeatMap extends Map {
     const {heat, map} = this.state;    
     const mouseLatLng = map.mouseEventToLatLng(moveEvent);
     
-    if (!heat || ! heat._latlngs) {
+    this.clearShapes();
+
+    if (!heat || !heat._latlngs) {
       return;
     }
-
-    this.clearShapes();
 
     const distanceCalculator = (a, b) => map.distance(a, b);
     const coordinatesInRange = getLatLngListInRange(mouseLatLng, heat._latlngs, distanceCalculator, COORDINATE_RANGE_METERS);
 
+    if (coordinatesInRange < 1) {
+      return;
+    }
+
+    L.circle(mouseLatLng, {radius: 20000, color: 'red', opacity: 0.27}).addTo(map);
+
     coordinatesInRange.forEach((latLng) => {
-      L.circle(latLng, {radius: 55000, color: 'blue'}).addTo(map);
-      L.polyline([latLng, mouseLatLng], {color: 'red'}).addTo(map);
+      L.circle(latLng, {radius: 50000, color: 'blue', opacity: 0.27}).addTo(map);
+      L.polyline([latLng, mouseLatLng], {color: 'red', opacity: 0.81}).addTo(map);
     });
   };
 
@@ -61,10 +67,10 @@ class HeatMap extends Map {
     }
 
     const { data } = message;
-    const parsedData = tryParseJson(data);
+    const parsedLatLng = tryParseJson(data);
 
-    if (parsedData.length === 2) {
-      heat.addLatLng(parsedData);
+    if (isValidLatLng(parsedLatLng)) {
+      heat.addLatLng(parsedLatLng);
     }
   };
 

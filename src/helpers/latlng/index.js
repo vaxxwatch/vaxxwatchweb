@@ -1,1 +1,4 @@
-export {getLatLngListInRange} from './latlnghelper';
+export {
+  getLatLngListInRange,
+  isValidLatLng
+} from './latlnghelper';
