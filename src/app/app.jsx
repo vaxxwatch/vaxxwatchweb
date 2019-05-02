@@ -3,14 +3,14 @@ import React from 'react';
 import config from '../../config/default';
 
 import HeatMap from '../map/heatmap/heatmap';
-import IconMap from '../map/iconmap/iconmap';
+//import IconMap from '../map/iconmap/iconmap';
 
 import SocketConnector from '../socket/socketconnector';
-import TestSocket from '../socket/testsocket';
+//import TestSocket from '../socket/testsocket';
 
 const { socket: { url } } = config;
 
-const vaxxWatchConnection = new TestSocket(url);
+const vaxxWatchConnection = new SocketConnector(url);
 
 const App = () => (
   <div>
