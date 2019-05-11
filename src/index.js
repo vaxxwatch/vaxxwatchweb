@@ -1,5 +1,3 @@
-import 'idempotent-babel-polyfill';
-
 import {
   loadComponents,
   getState
@@ -12,27 +10,29 @@ window.snapSaveState = () => getState();
 
 const rootElement = document.getElementById('root');
 
-import('react-dom').then((reactDom) => {
-  const {render, hydrate} = reactDom;
+import('idempotent-babel-polyfill')
+  .then(() => import('react-dom'))
+  .then((reactDom) => {
+    const {render, hydrate} = reactDom;
 
-  const loadAppClient = () => {
-    hydrate(App(), rootElement);
-    setupSentry();
-  };
+    const loadAppClient = () => {
+      hydrate(App(), rootElement);
+      setupSentry();
+    };
   
-  const loadAppServer = () => {
-    render(App(), rootElement);
-  };
+    const loadAppServer = () => {
+      render(App(), rootElement);
+    };
   
-  const loadApp = () => {
-    if (rootElement.hasChildNodes()) {
-      loadAppClient();
-    } else {
-      loadAppServer();
-    }
-  };
+    const loadApp = () => {
+      if (rootElement.hasChildNodes()) {
+        loadAppClient();
+      } else {
+        loadAppServer();
+      }
+    };
 
-  loadComponents()
-    .then(loadApp)
-    .catch(loadAppServer);
-});
+    loadComponents()
+      .then(loadApp)
+      .catch(loadAppServer);
+  });
