@@ -1,10 +1,10 @@
 import L from 'leaflet';
 
-import { isValidLatLng } from '../../helpers/latlng';
-import { tryParseJson } from '../../helpers/json';
+import { isValidLatLng } from '../../../helpers/latlngHelper';
+import { tryParseJson } from '../../../helpers/jsonHelper';
 import Map from '../map';
 
-class HeatMap extends Map {
+class IconMap extends Map {
   state = {
     listenerId: 'iconMap',
   };
@@ -21,4 +21,4 @@ class HeatMap extends Map {
   };
 }
 
-export default HeatMap;
+export default IconMap;

@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
-import 'leaflet.heat';
 
-import config from '../../config/default';
-import SocketConnector from '../socket/socketconnector';
+import config from '../../../config/default';
+import SocketConnector from '../../socket/socketconnector';
 import './map.less';
+
 
 const MOUSE_TIMEOUT = config.map.mouseMoveTimeout;
 
@@ -33,6 +33,10 @@ const MAP_STYLE = {
 };
 
 class Map extends React.PureComponent {
+  state = {
+    listenerId: 'defaultMap',
+  };
+
   componentDidMount() {
     const { listenerId } = this.state;
 
@@ -59,12 +63,8 @@ class Map extends React.PureComponent {
     this.mouseEventTimeout = setTimeout(this.handleMouseMove.bind(null, { ...event }), MOUSE_TIMEOUT);
   };
 
-  handleMouseMove = (mouseEvent) => {
-    const { map } = this.state;
-
-    const mouseLatLng = map.mouseEventToLatLng(mouseEvent);
-
-    console.log(mouseLatLng);
+  handleMouseMove = () => {
+    throw new Error('NotImplemented');
   };
 
   setEventListener = () => {
@@ -75,15 +75,15 @@ class Map extends React.PureComponent {
   };
 
   handleNewCoordinateMessage = () => {
-    throw new Error('Not Implemented');
+    throw new Error('NotImplemented');
   };
 
   render() {
     const { listenerId } = this.state;
 
     return (
-      <div id={listenerId} style={MAP_STYLE} onClick={this.onMouseMove} />
-    );
+      <div id={listenerId} style={MAP_STYLE} onClick={this.onMouseMove} /> //eslint-disable-line
+    ); 
   }
 }
 

@@ -1,8 +1,8 @@
 import L from 'leaflet';
 import 'leaflet.heat';
 
-import { getLatLngListInRange, isValidLatLng } from '../../helpers/latlng';
-import { tryParseJson } from '../../helpers/json';
+import { getLatLngListInRange, isValidLatLng } from '../../../helpers/latlngHelper';
+import { tryParseJson } from '../../../helpers/jsonHelper';
 import Map from '../map';
 
 const COORDINATE_RANGE_METERS = 500000;
@@ -15,7 +15,7 @@ const layerIsGraphics = (layer) => layer && ((layer._bounds && !layer._center) |
 
 class HeatMap extends Map {
   state = {
-    listenerId: 'heatMap',
+    listenerId: 'heatMap'
   };
 
   clearShapes = () => {

@@ -12,3 +12,8 @@ To run solution in dev mode, first clone solution then run the following command
 
 1. `npm ci`
 2. `npm start`
+
+To create production build, run:
+
+1. `npm run build`
+2. Observe build files in `public` directory
