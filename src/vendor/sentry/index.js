@@ -1,7 +1,3 @@
-import loadable from 'loadable-components';
-
-const Sentry = loadable(() => import('@sentry/browser'));
-
 const shouldInitializeSentry = () => {
   return typeof window !== 'undefined'
     && window
@@ -10,8 +6,12 @@ const shouldInitializeSentry = () => {
     && window.location.href.indexOf('vaxxwatch') > -1;
 };
 
+const setupSentry = (Sentry) => {
+  Sentry.init({ dsn: 'https://3785a3a90480477db247f1ab72d0a053@sentry.io/1414929' });
+};
+
 export default () => {
   if (shouldInitializeSentry()) {
-    Sentry.init({ dsn: 'https://3785a3a90480477db247f1ab72d0a053@sentry.io/1414929' });
+    import('@sentry/browser').then(setupSentry);
   }
 };

@@ -2,9 +2,9 @@
   "name": "vaxxwatchweb",
   "description": "Tracking and highlighting anti-vaxx activity across the globe",
   "scripts": {
-    "start": "parcel src/template/index.html -d public -p 80",
-    "build": "parcel build src/template/index.html -d public",
-    "postbuild": "react-snap",
+    "start": "parcel src/index.html -d public -p 80",
+    "start:prod": "cross-env NODE_ENV=production npm run start",
+    "build": "parcel build src/index.html -d public",
     "lint": "eslint src",
     "git-pre-commit": "npm run lint -- --fix",
     "git-pre-push": "npm-run-all -p lint build"
@@ -14,10 +14,6 @@
       "pre-commit": "npm run git-pre-commit",
       "pre-push": "npm run git-pre-push"
     }
-  },
-  "reactSnap": {
-    "source": "public",
-    "inlineCss": true
   },
   "eslintConfig": {
     "extends": "./config/.eslintrc.json"
@@ -34,6 +30,7 @@
     "@babel/preset-react": "^7.0.0",
     "@loadable/babel-plugin": "^5.8.0",
     "babel-eslint": "^10.0.1",
+    "cross-env": "^5.2.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-babel": "^5.3.0",
@@ -46,8 +43,7 @@
     "parcel-bundler": "^1.12.3",
     "parcel-plugin-bundle-visualiser": "^1.2.0",
     "parcel-plugin-clean-easy": "^1.0.2",
-    "parcel-plugin-static-files-copy": "^2.0.0",
-    "react-snap": "^1.23.0"
+    "parcel-plugin-static-files-copy": "^2.0.0"
   },
   "dependencies": {
     "@sentry/browser": "^4.6.6",

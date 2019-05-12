@@ -3,13 +3,13 @@ import loadable from 'loadable-components';
 
 import config from '../../config/default';
 
-import SocketConnector from '../socket/socketconnector';
+import SocketConnector from '../helpers/socketHelper';
+
 import ErrorBoundry from '../components/error/boundry';
 
 const HeatMap = loadable(() => import('../components/map/heatmap/heatmap'));
 
 //import IconMap from '../map/iconmap/iconmap';
-//import TestSocket from '../socket/testsocket';
 
 const { socket: { url } } = config;
 

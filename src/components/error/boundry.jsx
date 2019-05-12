@@ -28,7 +28,9 @@ class VWErrorBoundry extends React.PureComponent {
     const {children} = this.props;
 
     if (hasError) {
-      return <h3>Something went wrong. We apologize profusely...</h3>;
+      return (
+        <h3>Something went wrong. We apologize profusely...</h3>
+      );
     }
 
     return children;
