@@ -26,12 +26,6 @@ const TILE_OPTIONS = {
   subdomains: ['a', 'b', 'c'],
 };
 
-const MAP_STYLE = {
-  height: '80vh',
-  width: '90vw',
-  border: '1px solid lightgray'
-};
-
 class Map extends React.PureComponent {
   state = {
     listenerId: 'defaultMap',
@@ -82,7 +76,7 @@ class Map extends React.PureComponent {
     const { listenerId } = this.state;
 
     return (
-      <div id={listenerId} style={MAP_STYLE} onClick={this.onMouseMove} /> //eslint-disable-line
+      <div id={listenerId} className="vaxxwatch-map" onClick={this.onMouseMove} /> //eslint-disable-line
     ); 
   }
 }
