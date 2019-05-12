@@ -1,8 +1,0 @@
-{
-    "socket": {
-        "url": "wss://vaxxwatch.herokuapp.com/coordinate_socket"
-    },
-    "map": {
-        "mouseMoveTimeout": 20
-    }
-}

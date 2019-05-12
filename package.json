@@ -15,9 +15,6 @@
       "pre-push": "npm run git-pre-push"
     }
   },
-  "eslintConfig": {
-    "extends": "./config/.eslintrc.json"
-  },
   "parcelCleanPaths": [
     "public/**"
   ],

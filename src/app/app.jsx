@@ -1,7 +1,7 @@
 import React from 'react';
 import loadable from 'loadable-components';
 
-import config from '../../config/default';
+import config from '../config/default';
 
 import SocketConnector from '../helpers/socketHelper';
 

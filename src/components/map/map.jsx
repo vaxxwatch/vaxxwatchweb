@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
 
-import config from '../../../config/default';
+import config from '../../config/default';
 import SocketConnector from '../../socket/socketconnector';
 import './map.less';
 
