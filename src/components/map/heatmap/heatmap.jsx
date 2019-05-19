@@ -1,17 +1,26 @@
 import L from 'leaflet';
 import 'leaflet.heat';
 
-import { getLatLngListInRange, isValidLatLng } from '../../../helpers/latlngHelper';
+import config from '../../../config/default';
+import {
+  getLatLngListInRange,
+  isValidLatLng
+} from '../../../helpers/latlngHelper';
 import { tryParseJson } from '../../../helpers/jsonHelper';
 import Map from '../map';
+
+const WINDOW_WIDTH = typeof window !== 'undefined' && window.innerWidth;
+const IS_MOBILE = WINDOW_WIDTH <= config.mobile.width;
 
 const COORDINATE_RANGE_METERS = 500000;
 
 const HEAT_OPTIONS = {
-  radius: 10,
+  radius: IS_MOBILE ? 4 : 6,
+  blur: IS_MOBILE ? 5 : 7,
 };
 
-const layerIsGraphics = (layer) => layer && ((layer._bounds && !layer._center) || layer._point );
+const layerIsGraphics = layer =>
+  layer && ((layer._bounds && !layer._center) || layer._point);
 
 class HeatMap extends Map {
   state = {
@@ -19,7 +28,7 @@ class HeatMap extends Map {
   };
 
   clearShapes = () => {
-    const {map} = this.state;
+    const { map } = this.state;
 
     const layers = map._layers;
 
@@ -29,15 +38,15 @@ class HeatMap extends Map {
 
     const graphicLayers = Object.values(layers).filter(layerIsGraphics);
 
-    graphicLayers.forEach((layer) => {
+    graphicLayers.forEach(layer => {
       map.removeLayer(layer);
     });
   };
 
-  handleMouseMove = (moveEvent) => {
-    const {heat, map} = this.state;    
+  handleMouseMove = moveEvent => {
+    const { heat, map } = this.state;
     const mouseLatLng = map.mouseEventToLatLng(moveEvent);
-    
+
     this.clearShapes();
 
     if (!heat || !heat._latlngs) {
@@ -45,21 +54,32 @@ class HeatMap extends Map {
     }
 
     const distanceCalculator = (a, b) => map.distance(a, b);
-    const coordinatesInRange = getLatLngListInRange(mouseLatLng, heat._latlngs, distanceCalculator, COORDINATE_RANGE_METERS);
+    const coordinatesInRange = getLatLngListInRange(
+      mouseLatLng,
+      heat._latlngs,
+      distanceCalculator,
+      COORDINATE_RANGE_METERS
+    );
 
     if (coordinatesInRange < 1) {
       return;
     }
 
-    L.circle(mouseLatLng, {radius: 20000, color: 'red', opacity: 0.27}).addTo(map);
+    L.circle(mouseLatLng, { radius: 20000, color: 'red', opacity: 0.27 }).addTo(
+      map
+    );
 
-    coordinatesInRange.forEach((latLng) => {
-      L.circle(latLng, {radius: 50000, color: 'blue', opacity: 0.27}).addTo(map);
-      L.polyline([latLng, mouseLatLng], {color: 'red', opacity: 0.81}).addTo(map);
+    coordinatesInRange.forEach(latLng => {
+      L.circle(latLng, { radius: 50000, color: 'blue', opacity: 0.27 }).addTo(
+        map
+      );
+      L.polyline([latLng, mouseLatLng], { color: 'red', opacity: 0.81 }).addTo(
+        map
+      );
     });
   };
 
-  handleNewCoordinateMessage = (message) => {
+  handleNewCoordinateMessage = message => {
     let { heat } = this.state;
 
     if (!heat) {

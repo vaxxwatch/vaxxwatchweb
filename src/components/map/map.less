@@ -1,10 +1,23 @@
 .vaxxwatch-map {
-    animation: fadeIn 1s;
-    height: 80vh;
-    width: 90vw;
     border: 1px solid lightgray;
+    padding-bottom: 56.25%;
+    position: relative;
+    width: 85vw;
+
+    @media screen and (max-width: 768px) {
+        width: 95vw;
+    }
 
     .leaflet-marker-icon {
         cursor: default;
+    }
+
+    &__map {
+        animation: fadeIn 1s;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
     }
 }

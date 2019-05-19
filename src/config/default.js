@@ -5,5 +5,8 @@ export default {
   map: {
     mouseMoveTimeout: 20
   },
+  mobile: {
+    width: 768
+  },
   sentryDsn: process.env.SENTRY_DSN
 };
